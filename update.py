@@ -49,61 +49,96 @@ def generate_html(news):
   body {
     margin: 0;
     padding: 0;
-    width: 1920px;
-    height: 300px;
+    width: 830px;
+    height: 500px;
     background: #0A1A3A;
     font-family: Arial, sans-serif;
     color: white;
     overflow: hidden;
-  }
-  .carousel {
     display: flex;
-    animation: scroll 60s linear infinite;
+    justify-content: center;
+    align-items: center;
   }
-  .item {
-    min-width: 600px;
-    margin-right: 40px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-    padding: 10px;
+
+  .slider {
+    position: relative;
+    width: 830px;
+    height: 500px;
   }
-  .item img {
+
+  .slide {
+    position: absolute;
+    width: 830px;
+    height: 500px;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+
+  .slide.active {
+    opacity: 1;
+  }
+
+  .slide img {
     width: 100%;
-    height: 150px;
+    height: 280px;
     object-fit: cover;
     border-radius: 6px;
   }
-  .item h3 {
+
+  .content {
+    padding: 15px;
+  }
+
+  h3 {
     margin: 10px 0 5px;
-    font-size: 20px;
+    font-size: 22px;
   }
-  .item p {
-    font-size: 16px;
-  }
-  @keyframes scroll {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
+
+  p {
+    font-size: 18px;
   }
 </style>
 </head>
 <body>
-  <div class="carousel">
+
+<div class="slider">
 """
 
     for n in news:
-        html += f"""
-    <div class="item">
+    html += f"""
+    <div class="slide">
       <img src="{n['image']}" alt="Notícia">
-      <h3>{n['title']}</h3>
-      <p>{n['summary']}</p>
+      <div class="content">
+        <h3>{n['title']}</h3>
+        <p>{n['summary']}</p>
+      </div>
     </div>
 """
 
-    html += """
-  </div>
+   html += """
+</div>
+
+<script>
+  let slides = document.querySelectorAll('.slide');
+  let index = 0;
+
+  function showSlide() {
+    slides.forEach((s, i) => {
+      s.classList.remove('active');
+      if (i === index) s.classList.add('active');
+    });
+
+    index = (index + 1) % slides.length;
+  }
+
+  showSlide();
+  setInterval(showSlide, 6000);
+</script>
+
 </body>
 </html>
 """
+
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
