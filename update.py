@@ -45,14 +45,18 @@ def generate_html(news):
 <head>
 <meta charset="UTF-8">
 <title>Mural de Notícias - Hospital de Amor</title>
+
+<!-- Fonte Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
   body {
     margin: 0;
     padding: 0;
     width: 830px;
     height: 500px;
-    background: #0A1A3A;
-    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0A1A3A, #1E3C72);
+    font-family: 'Inter', sans-serif;
     color: white;
     overflow: hidden;
     display: flex;
@@ -64,6 +68,9 @@ def generate_html(news):
     position: relative;
     width: 830px;
     height: 500px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
   }
 
   .slide {
@@ -71,7 +78,7 @@ def generate_html(news):
     width: 830px;
     height: 500px;
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
+    transition: opacity 2.2s ease-in-out;
   }
 
   .slide.active {
@@ -80,59 +87,108 @@ def generate_html(news):
 
   .slide img {
     width: 100%;
-    height: 280px;
+    height: 260px;
     object-fit: cover;
-    border-radius: 6px;
   }
 
   .content {
-    padding: 15px;
+    padding: 18px;
   }
 
   h3 {
-    margin: 10px 0 5px;
+    margin: 5px 0 10px;
     font-size: 22px;
+    font-weight: 600;
   }
 
   p {
-    font-size: 18px;
+    font-size: 17px;
+    line-height: 1.35;
+    font-weight: 300;
+  }
+
+  /* Logo */
+  .logo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 110px;
+    opacity: 0.9;
+  }
+
+  /* Indicadores */
+  .dots {
+    position: absolute;
+    bottom: 12px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 0 4px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    transition: background 0.3s;
+  }
+
+  .dot.active {
+    background: #fff;
   }
 </style>
 </head>
 <body>
 
 <div class="slider">
+<img class="logo" src="https://hospitaldeamor.com.br/site/wp-content/uploads/2020/05/logo-ha-horizontal-branca.png">
 """
 
+    # Loop corrigido (sem duplicação)
     for n in news:
         html += f"""
-        <div class="slide">
-          <img src="{n['image']}" alt="Notícia">
-          <div class="content">
-            <h3>{n['title']}</h3>
-            <p>{n['summary']}</p>
-          </div>
-        </div>
-        """
+<div class="slide">
+  <img src="{n['image']}" alt="Notícia">
+  <div class="content">
+    <h3>{n['title']}</h3>
+    <p>{n['summary']}</p>
+  </div>
+</div>
+"""
 
     html += """
+<div class="dots"></div>
+
 </div>
 
 <script>
   let slides = document.querySelectorAll('.slide');
+  let dotsContainer = document.querySelector('.dots');
   let index = 0;
 
+  // Criar indicadores
+  slides.forEach((s, i) => {
+    let d = document.createElement('div');
+    d.classList.add('dot');
+    if (i === 0) d.classList.add('active');
+    dotsContainer.appendChild(d);
+  });
+
+  let dots = document.querySelectorAll('.dot');
+
   function showSlide() {
-    slides.forEach((s, i) => {
-      s.classList.remove('active');
-      if (i === index) s.classList.add('active');
-    });
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
 
     index = (index + 1) % slides.length;
   }
 
   showSlide();
-  setInterval(showSlide, 6000);
+  setInterval(showSlide, 6500);
 </script>
 
 </body>
