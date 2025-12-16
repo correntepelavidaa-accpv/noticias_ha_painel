@@ -105,17 +105,17 @@ def generate_html(news):
 """
 
     for n in news:
-    html += f"""
-    <div class="slide">
-      <img src="{n['image']}" alt="Notícia">
-      <div class="content">
-        <h3>{n['title']}</h3>
-        <p>{n['summary']}</p>
-      </div>
-    </div>
-"""
+        html += f"""
+        <div class="slide">
+          <img src="{n['image']}" alt="Notícia">
+          <div class="content">
+            <h3>{n['title']}</h3>
+            <p>{n['summary']}</p>
+          </div>
+        </div>
+        """
 
-   html += """
+    html += """
 </div>
 
 <script>
@@ -138,7 +138,6 @@ def generate_html(news):
 </body>
 </html>
 """
-
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
