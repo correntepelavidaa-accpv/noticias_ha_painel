@@ -7,14 +7,26 @@ def fetch_news():
     response = requests.get(URL)
     soup = BeautifulSoup(response.text, "html.parser")
 
-    items = soup.select(".elementor-post")[:10]
+    # Cada notícia é um <article class="et_pb_post">
+    items = soup.select("article.et_pb_post")[:10]
+
     news_list = []
 
     for item in items:
-        title = item.select_one(".elementor-post__title").get_text(strip=True)
-        link = item.select_one("a")["href"]
-        summary = item.select_one(".elementor-post__excerpt").get_text(strip=True)
-        image = item.select_one("img")["src"]
+        # Imagem
+        img_tag = item.select_one(".et_pb_image_container img")
+        image = img_tag["src"] if img_tag else ""
+
+        # Título
+        title_tag = item.select_one("h3.entry-title a")
+        title = title_tag.get_text(strip=True) if title_tag else ""
+
+        # Link
+        link = title_tag["href"] if title_tag else ""
+
+        # Resumo
+        summary_tag = item.select_one(".post-content-inner p")
+        summary = summary_tag.get_text(strip=True) if summary_tag else ""
 
         news_list.append({
             "title": title,
