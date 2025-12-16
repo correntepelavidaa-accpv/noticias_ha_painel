@@ -1,0 +1,29 @@
+name: Atualizar Notícias
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Instalar dependências
+        run: pip install requests beautifulsoup4
+
+      - name: Atualizar HTML
+        run: python update.py
+
+      - name: Commit e Push
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add index.html
+          git commit -m "Atualização automática"
+          git push
