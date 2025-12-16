@@ -78,7 +78,7 @@ def generate_html(news):
     width: 830px;
     height: 500px;
     opacity: 0;
-    transition: opacity 2.2s ease-in-out;
+    transition: opacity 3s ease-in-out;
   }
 
   .slide.active {
@@ -191,7 +191,7 @@ def generate_html(news):
   }
 
   showSlide();
-  setInterval(showSlide, 6500);
+  setInterval(showSlide, 15000);
 </script>
 
 </body>
