@@ -55,7 +55,7 @@ def generate_html(news):
     padding: 0;
     width: 830px;
     height: 500px;
-    background: linear-gradient(135deg, #0A1A3A, #1E3C72);
+    background: #0A1A3A;
     font-family: 'Inter', sans-serif;
     color: white;
     overflow: hidden;
@@ -85,14 +85,25 @@ def generate_html(news):
     opacity: 1;
   }
 
-  .slide img {
+  .image-area {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+  }
+
+  .image-area img {
     width: 100%;
     height: 260px;
     object-fit: cover;
   }
 
+  /* ✅ Degradê aplicado atrás da notícia */
   .content {
     padding: 18px;
+    height: 240px;
+    background: linear-gradient(135deg, #1E3C72, #2A5298);
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
   }
 
   h3 {
@@ -105,15 +116,6 @@ def generate_html(news):
     font-size: 17px;
     line-height: 1.35;
     font-weight: 300;
-  }
-
-  /* Logo */
-  .logo {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 110px;
-    opacity: 0.9;
   }
 
   /* Indicadores */
@@ -142,14 +144,15 @@ def generate_html(news):
 <body>
 
 <div class="slider">
-<img class="logo" src="https://hospitaldeamor.com.br/site/wp-content/uploads/2020/05/logo-ha-horizontal-branca.png">
 """
 
-    # Loop corrigido (sem duplicação)
+    # ✅ Loop corrigido (sem duplicação)
     for n in news:
         html += f"""
 <div class="slide">
-  <img src="{n['image']}" alt="Notícia">
+  <div class="image-area">
+    <img src="{n['image']}" alt="Notícia">
+  </div>
   <div class="content">
     <h3>{n['title']}</h3>
     <p>{n['summary']}</p>
