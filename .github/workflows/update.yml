@@ -25,5 +25,5 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add index.html
-          git commit -m "Atualização automática"
+          git commit -m "Atualização automática" || echo "Nenhuma alteração para commitar"
           git push
